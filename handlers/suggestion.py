@@ -17,7 +17,15 @@ async def suggestion_handler(message: Message, bot: Bot) -> None:
 
         await notify_staff(message, bot, original_message_id)
     else:
-        print(message.message_thread_id)
+        if message.reply_to_message is None:
+            return
+        original_message_id = get_original_message_from_forwarded(
+            message.reply_to_message.chat.id,
+            message.reply_to_message.message_id
+        )
+        if original_message_id is False:
+            return
+        await message.copy_to(original_message_id['from_user'])
     await message.react(reaction=[ReactionTypeEmoji(type="emoji", emoji="👍")])
 
 async def notify_staff(message: Message, bot: Bot, original_message_id: int):
@@ -27,7 +35,7 @@ async def notify_staff(message: Message, bot: Bot, original_message_id: int):
             await bot.send_message(admin.id,
                                    text=f"Получено предложение от @{message.from_user.username}:",
                                    parse_mode="HTML")
-            fwd_message = await message.forward(admin.id)
-            register_forwarded_message(fwd_message.message_id, fwd_message.chat.id, original_message_id)
+            fwd_message = await message.copy_to(admin.id)
+            register_forwarded_message(fwd_message.message_id, admin.id, original_message_id)
     finally:
         session.close()

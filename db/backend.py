@@ -96,7 +96,7 @@ def get_original_message(original_suggestion: int):
     session = SessionLocal()
     try:
         msg = session.get(SuggestionOriginalMessage, original_suggestion)
-        return msg.id if msg is not None else False
+        return msg.serialize() if msg is not None else False
     finally:
         session.close()
 

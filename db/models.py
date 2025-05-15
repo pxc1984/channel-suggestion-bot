@@ -18,6 +18,13 @@ class SuggestionOriginalMessage(Base):
     from_user = Column(BigInteger, ForeignKey("users.id"), nullable=False) # it should relate to user who sent it, to it's id
     text = Column(String)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'message_id': self.message_id,
+            'from_user': self.from_user,
+        }
+
 class SuggestionForwardedMessage(Base):
     __tablename__ = "forwarded"
 
