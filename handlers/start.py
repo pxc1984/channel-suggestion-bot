@@ -14,5 +14,5 @@ if CHANNEL_NAME is None:
 
 @start_router.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    try_register_user(message.chat.id, message.from_user.username)
+    try_register_user(message.from_user.id, message.from_user.username)
     await message.answer(f"Ну, привет, это бот-предложка для канала {CHANNEL_NAME}")
