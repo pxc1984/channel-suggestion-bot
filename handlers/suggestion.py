@@ -26,7 +26,7 @@ async def suggestion_handler(message: Message, bot: Bot) -> None:
         if original_message_id is False:
             return
         await message.copy_to(original_message_id['from_user'])
-    await message.react(reaction=[ReactionTypeEmoji(type="emoji", emoji="👍")])
+    await message.react(reaction=[ReactionTypeEmoji(type="emoji", emoji="✍")])
 
 async def notify_staff(message: Message, bot: Bot, original_message_id: int):
     session = SessionLocal()
