@@ -95,8 +95,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Start" />
       <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="Python.Start" />
     </list>
     <recent_temporary>
       <list>
