@@ -8,6 +8,7 @@ from aiogram.enums import ParseMode
 
 from handlers.dbexec import dbexec_router
 from handlers.start import start_router
+from handlers.suggestion import suggestions_router
 
 from db.db import init_db
 
@@ -20,6 +21,7 @@ async def main():
     dp.include_routers(
         start_router,
         dbexec_router,
+        suggestions_router,
     )
 
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
