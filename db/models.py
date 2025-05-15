@@ -10,13 +10,18 @@ class User(Base):
     username = Column(String)
     admin = Column(Boolean, default=False)
 
-    suggestions = relationship("Suggestion", back_populates="user")
-
-class Suggestion(Base):
+class SuggestionOriginalMessage(Base):
     __tablename__ = "messages"
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    message_id = Column(BigInteger)
     from_user = Column(BigInteger, ForeignKey("users.id"), nullable=False) # it should relate to user who sent it, to it's id
     text = Column(String)
 
-    user = relationship("User", back_populates="suggestions")
+class SuggestionForwardedMessage(Base):
+    __tablename__ = "forwarded"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    message_id = Column(BigInteger)
+    chat_id = Column(BigInteger)
+    original_suggestion = Column(Integer, ForeignKey("messages.id"))

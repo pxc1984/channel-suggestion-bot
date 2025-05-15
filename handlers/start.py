@@ -1,6 +1,6 @@
 import os
 
-from db.db import try_register_user
+from db.backend import try_register_user
 
 from aiogram import Router
 from aiogram.filters import CommandStart
