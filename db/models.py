@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, BigInteger, Boolean, String, ForeignKey
-from sqlalchemy.orm import relationship
 
 from db.base import Base
 
@@ -32,3 +31,11 @@ class SuggestionForwardedMessage(Base):
     message_id = Column(BigInteger)
     chat_id = Column(BigInteger)
     original_suggestion = Column(Integer, ForeignKey("messages.id"))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'message_id': self.message_id,
+            'chat_id': self.chat_id,
+            'original_suggestion': self.original_suggestion,
+        }

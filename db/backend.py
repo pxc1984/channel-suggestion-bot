@@ -70,7 +70,7 @@ def register_forwarded_message(message_id: int, chat_id: int, original_suggestio
     finally:
         session.close()
 
-def get_original_message_from_forwarded(chat_id: int, message_id: int):
+def get_original_message_from_forwarded(chat_id: int, message_id: int) -> bool | None | dict:
     """
     Вспомогательная функция, позволяющая получить внутрибазный идентификатор зная где было написано сообщение и какой номер этого
     сообщения в чате
@@ -82,12 +82,12 @@ def get_original_message_from_forwarded(chat_id: int, message_id: int):
     try:
         fwd_entry = session.query(SuggestionForwardedMessage).filter_by(chat_id=chat_id, message_id=message_id).first()
         if not fwd_entry:
-            return False
+            return None
         return get_original_message(fwd_entry.original_suggestion)
     finally:
         session.close()
 
-def get_original_message(original_suggestion: int):
+def get_original_message(original_suggestion: int) -> bool | dict:
     """
     Уточняет существование уникального айди сообщения в базе данных
     :param original_suggestion: Уникальный айди оригинального обращения
@@ -100,7 +100,7 @@ def get_original_message(original_suggestion: int):
     finally:
         session.close()
 
-def is_admin(user_id: int) -> bool:
+def is_admin(user_id: int) -> bool | None:
     """
     Узнать, является ли пользователем администратором бота
     :param user_id: Айди пользователя
@@ -138,7 +138,7 @@ def set_admin(user_id: int, status: bool) -> bool:
         is_admin_status = is_admin(user_id)
         if is_admin_status is None:
             return False
-        elif is_admin(user_id) == status:
+        elif is_admin_status == status:
             return True
         else:
             user = session.get(User, user_id)
