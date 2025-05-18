@@ -47,6 +47,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /root/bots
+            cd /root
             docker compose pull
+            docker compose down
             docker compose up --force-recreate -d
