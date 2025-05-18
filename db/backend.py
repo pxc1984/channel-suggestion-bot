@@ -117,6 +117,11 @@ def is_admin(user_id: int) -> bool | None:
         session.close()
 
 def is_admin_by_username(username: str) -> bool:
+    """
+    Делает то же, что и is_admin, но по имени пользователя
+    :param username:
+    :return:
+    """
     session = SessionLocal()
     try:
         user = session.query(User).filter_by(username=username).first()
@@ -151,12 +156,56 @@ def set_admin(user_id: int, status: bool) -> bool:
         session.close()
 
 def set_admin_by_username(username: str, status: bool) -> bool:
+    """
+    Делает то же, что и set_admin, но по имени пользователя
+    :param username:
+    :param status:
+    :return:
+    """
     session = SessionLocal()
     try:
         _user = session.query(User).filter_by(username=username).first()
         if not _user:
             return False
         return set_admin(_user.id, status)
+    finally:
+        session.close()
+
+def ban_user(user_id: int, status: bool = True) -> bool:
+    """
+    Банит пользователя от пользования ботом
+    Важно: пользователь должен уже до этого хоть раз воспользоваться ботом
+    :param user_id:
+    :param status:
+    :return:
+    """
+    session = SessionLocal()
+    try:
+        user = session.get(User, user_id)
+        if user is None:
+            return False
+        user.banned = status
+        session.commit()
+        return True
+    finally:
+        session.close()
+
+def ban_user_by_username(username: str, status: bool = True) -> bool:
+    """
+    Банит пользователя от пользования ботом, но теперь по имени пользователя.
+    Важно: пользователь должен уже до этого хоть раз воспользоваться ботом
+    :param username:
+    :param status:
+    :return:
+    """
+    session = SessionLocal()
+    try:
+        user = session.query(User).filter_by(username=username).first()
+        if user is None:
+            return False
+        user.banned = status
+        session.commit()
+        return True
     finally:
         session.close()
 

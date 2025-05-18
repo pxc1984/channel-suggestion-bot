@@ -8,6 +8,7 @@ class User(Base):
     id = Column(BigInteger, primary_key=True)
     username = Column(String)
     admin = Column(Boolean, default=False)
+    banned = Column(Boolean, default=False)
 
 class SuggestionOriginalMessage(Base):
     __tablename__ = "messages"
