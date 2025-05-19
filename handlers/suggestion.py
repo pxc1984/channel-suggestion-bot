@@ -8,6 +8,9 @@ suggestions_router = Router()
 
 @suggestions_router.message(~F.command)
 async def suggestion_handler(message: Message, bot: Bot) -> None:
+    if get_banned(message.from_user.id):
+        return
+
     if not is_admin(message.from_user.id):
         try_register_user(message.from_user.id, message.from_user.username)
         original_message_id = register_original_message(message.message_id, message.from_user.id, message.text if message.text else "")

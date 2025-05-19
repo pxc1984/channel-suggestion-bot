@@ -44,4 +44,9 @@ def execute(command: str, args: list[str] | None, user_id: int | None) -> bool:
             return is_admin(user_id)
         else:
             return is_admin_by_username(args[0])
+    if command == "pardon":
+        if args is None:
+            return ban_user(user_id, False)
+        else:
+            return False
     return False

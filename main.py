@@ -9,6 +9,7 @@ from aiogram.enums import ParseMode
 from handlers.dbexec import dbexec_router
 from handlers.start import start_router
 from handlers.suggestion import suggestions_router
+from handlers.ban import ban_router
 
 from db.backend import init_db
 
@@ -21,6 +22,7 @@ async def main():
     dp.include_routers(
         start_router,
         dbexec_router,
+        ban_router,
         suggestions_router,
     )
 

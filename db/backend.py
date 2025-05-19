@@ -209,6 +209,26 @@ def ban_user_by_username(username: str, status: bool = True) -> bool:
     finally:
         session.close()
 
+def get_banned(user_id: int) -> bool | None:
+    session = SessionLocal()
+    try:
+        user = session.get(User, user_id)
+        if user is None:
+            return user
+        return bool(user.banned)
+    finally:
+        session.close()
+
+def get_banned_by_username(username: str) -> bool | None:
+    session = SessionLocal()
+    try:
+        user = session.query(User).filter_by(username=username).first()
+        if user is None:
+            return None
+        return bool(user.banned)
+    finally:
+        session.close()
+
 def init_db():
     """
     Вспомогательная функция. Вызывается 1 раз в main.py и больше НИГДЕ НЕ ВЫЗЫВАТЬ!!
