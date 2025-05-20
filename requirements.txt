@@ -1,4 +1,4 @@
 aiogram
 SQLAlchemy
 toml
-psycopg
+psycopg2
